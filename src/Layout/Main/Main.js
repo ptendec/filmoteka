@@ -14,11 +14,11 @@ class Main extends Component{
             .then(data => this.setState({movies: data.Search}))
     }
 
-    searchMovies = searchString => {
-        fetch(`http://www.omdbapi.com/?apikey=886a24b4&s=${searchString}&page=1`)
+    searchMovies = (searchString, type = 'all') => {
+        fetch(`http://www.omdbapi.com/?apikey=886a24b4&s=${searchString}&page=1&type=${type !== 'all' ? type : ''}`)
             .then(response => response.json())
             .then(data => this.setState({movies: data.Search}))
-        console.log(searchString)
+        console.log(type)
     }
 
     render(){

@@ -1,16 +1,23 @@
 import React, {Component} from "react";
 
-class Search extends Component{
-    state={
+class Search extends Component {
+    state = {
         search: '',
+        type: 'all'
     }
     handleKey = (event) => {
-        if (event.key === 'Enter'){
-            this.props.searchMovies(this.state.search)
+        if (event.key === 'Enter') {
+            this.props.searchMovies(this.state.search, this.state.type)
         }
     }
+    handleFilter = (event) => {
+        this.setState(() => ({type: event.target.dataset.type}),
+            () => {this.props.searchMovies(this.state.search, this.state.type)
+        })
+    }
+
     render() {
-        return(
+        return (
             <div className="row" style={{position: 'relative'}}>
                 <div className="input-field col s12">
                     <input
@@ -22,7 +29,22 @@ class Search extends Component{
                     />
                     <label htmlFor="filmName">Search by film name</label>
                 </div>
-                <button className="btn search-btn" onClick={() => this.props.searchMovies(this.state.search)}>Search</button>
+                <button className="btn search-btn" onClick={() => this.props.searchMovies(this.state.search, this.state.type)}>Search
+                </button>
+                <div>
+                    <label>
+                        <input name="type" data-type="all" type="radio" onChange={this.handleFilter} checked={this.state.type === 'all'}/>
+                        <span>All</span>
+                    </label><br/>
+                    <label>
+                        <input name="type" data-type="movie" type="radio" onChange={this.handleFilter} checked={this.state.type === 'movie'}/>
+                        <span>Movies</span>
+                    </label><br/>
+                    <label>
+                        <input name="type" data-type="series" type="radio" onChange={this.handleFilter} checked={this.state.type === 'series'}/>
+                        <span>Series</span>
+                    </label>
+                </div>
             </div>
         )
     }
